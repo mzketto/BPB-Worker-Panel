@@ -7,6 +7,8 @@ use_directory_urls: true
 site_dir: ../../site/fa
 extra_css:
   - stylesheet/extra.css
+extra_javascript:
+  - scripts/lang-switch.js
 
 theme:
   name: material
@@ -80,6 +82,7 @@ nav:
     - Workers دستی: installation/workers-manual.md
   - راهنمای تنظیمات:
     - configuration/index.md
+    - تنظیمات مشترک یا Common: configuration/common.md 
     - پروتکل‌های VLESS و Trojan: configuration/vless-trojan.md 
     - تنظیمات Fragment: configuration/fragment.md
     - تنظیمات عمومی Warp: configuration/warp.md
@@ -88,7 +91,6 @@ nav:
   - نحوه‌ی استفاده: 
     - usage/index.md
     - اشتراک Normal: usage/normal.md
-    - اشتراک Full Normal: usage/full-normal.md
     - اشتراک Fragment: usage/fragment.md
     - اشتراک Warp: usage/warp.md
     - اشتراک Warp PRO: usage/warp-pro.md
