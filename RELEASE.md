@@ -17,6 +17,7 @@
 - Added `Malware`, `Phishing` and `Cryptominers` block rules. Note that v2ray users should set Geo Assets to Chocolate4U and download assets, otherwise configs won't connect.
 - Panel UI improvements.
 - Updated docs.
+- Fixed website language switch.
 - Clash Fake DNS bug fix.
 - Bug fix #1116
 - And some other bug fixes and improvements.
@@ -25,10 +26,10 @@
 > Some fields like `IPv6` and `Fake DNS` should be, they will be set to default after upgrading to this version.
 
 > [!CAUTION]
-> Xray configs are now based on new Xray v25.10.15 format, so v2rayNG will work but shows configs like `null : null`. You have to wait for its developer to adapt new formats. Also Streisand may have issues parsing configs even though updated core to 25.10.15, so I recommend using this version as a new deployment to test and keep old versions.
-
-> [!CAUTION]
 > If you are upgrading from versions below 3.5.1 to 4, you should get subscriptions from panel again.
 
 > [!CAUTION]
 > sing-box client version should be 1.12.0 or higher.
+
+> [!CAUTION]
+> v2rayNG version should be 1.10.26 or higher and v2rayN should be 7.15.4 or higher.
