@@ -79,6 +79,7 @@ function initiatePanel(proxySettings) {
 }
 
 function populatePanel(proxySettings) {
+    document.getElementById("doh").textContent = `${window.origin}/dns-query/${decodeURIComponent(globalThis.subPath)}`;
     selectElements.forEach(elm => elm.value = proxySettings[elm.id]);
     checkboxElements.forEach(elm => elm.checked = proxySettings[elm.id]);
     inputElements.forEach(elm => elm.value = proxySettings[elm.id] || "");
@@ -415,6 +416,7 @@ function handleFragmentMode() {
         low: [100, 200, 1, 1],
         medium: [50, 100, 1, 5],
         high: [10, 20, 10, 20],
+        severe: [1, 5, 1, 5],
         custom: inputs.map(id => formDataObj[id])
     };
 
@@ -767,31 +769,25 @@ function validateWarpEndpoints() {
 
 function validateMinMax() {
     const getValue = (id) => parseInt(getElmValue(id), 10);
-    const [
-        fragmentLengthMin, fragmentLengthMax,
-        fragmentIntervalMin, fragmentIntervalMax,
-        fragmentMaxSplitMin, fragmentMaxSplitMax,
-        noiseCountMin, noiseCountMax,
-        noiseSizeMin, noiseSizeMax,
-        noiseDelayMin, noiseDelayMax
-    ] = [
-        'fragmentLengthMin', 'fragmentLengthMax',
-        'fragmentIntervalMin', 'fragmentIntervalMax',
-        'fragmentMaxSplitMin', 'fragmentMaxSplitMax',
-        'noiseCountMin', 'noiseCountMax',
-        'noiseSizeMin', 'noiseSizeMax',
-        'noiseDelayMin', 'noiseDelayMax'
-    ].map(getValue);
 
-    if (fragmentLengthMin >= fragmentLengthMax ||
-        fragmentIntervalMin > fragmentIntervalMax ||
-        fragmentMaxSplitMin > fragmentMaxSplitMax ||
-        noiseCountMin > noiseCountMax ||
-        noiseSizeMin > noiseSizeMax ||
-        noiseDelayMin > noiseDelayMax
-    ) {
-        alert('⛔ Minimum should be smaller or equal to Maximum!');
-        return false;
+    const fields = [
+        ['fragmentLengthMin', 'fragmentLengthMax', 'Fragment Length'],
+        ['fragmentIntervalMin', 'fragmentIntervalMax', 'Fragment Interval'],
+        ['fragmentMaxSplitMin', 'fragmentMaxSplitMax', 'Fragment Max Split'],
+        ['noiseCountMin', 'noiseCountMax', 'Noise Count'],
+        ['noiseSizeMin', 'noiseSizeMax', 'Noise Size'],
+        ['noiseDelayMin', 'noiseDelayMax', 'Noise Delay'],
+        ['amneziaNoiseSizeMin', 'amneziaNoiseSizeMax', 'Amnezia Noise Size']
+    ];
+
+    for (const [minId, maxId, label] of fields) {
+        const min = getValue(minId);
+        const max = getValue(maxId);
+
+        if (min > max) {
+            alert(`⛔ ${label}: Minimum cannot be bigger than Maximum!`);
+            return false;
+        }
     }
 
     return true;
@@ -945,6 +941,17 @@ function validateXrayNoises(fields) {
     return !submisionError;
 }
 
+function validateEchConfig() {
+    const echServerName = getElmValue("echServerName");
+    
+    if (echServerName && !isDomain(echServerName)) {
+        alert('⛔ The ECH Server Name should be a domain!');
+        return false;
+    }
+
+    return true;
+}
+
 function validateSettings() {
     const configForm = document.getElementById('configForm');
     const formData = new FormData(configForm);
@@ -972,7 +979,8 @@ function validateSettings() {
         validateCustomCdn(),
         validateKnockerNoise(),
         validateXrayNoises(fields),
-        validateCustomRules()
+        validateCustomRules(),
+        validateEchConfig()
     ];
 
     if (!validations.every(Boolean)) {

@@ -115,6 +115,7 @@ export interface TlsSettings {
     fingerprint: Fingerprint;
     alpn?: string[];
     allowInsecure: boolean;
+    echConfigList?: string;
 }
 
 export interface RealitySettings {
@@ -328,6 +329,10 @@ interface Policy {
 
 export interface Config {
     remarks: string;
+    version: {
+        min: string;
+        max?: string;
+    };
     log: Log;
     dns: Dns;
     inbounds: Array<MixedInbound | DokodemoDoorInbound>;

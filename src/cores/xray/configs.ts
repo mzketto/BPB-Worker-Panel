@@ -69,6 +69,9 @@ async function buildConfig(
 
     const config: Config = {
         remarks: remark,
+        version: {
+            min: "25.10.15"
+        },
         log: {
             loglevel: logLevel,
         },
@@ -138,7 +141,8 @@ async function addBestPingConfigs(
 ) {
     const isChain = !!chainOutbounds.length;
     const chainSign = isChain ? '🔗 ' : '';
-    const remark = `💦 ${chainSign}Best Ping F 🚀`;
+    const configType = isFragment ? ' F' : '';
+    const remark = `💦 ${chainSign}Best Ping${configType} 🚀`;
     const outbounds = [
         ...chainOutbounds,
         ...proxyOutbounds
@@ -171,12 +175,11 @@ async function addBestFragmentConfigs(
     const isChain = !!chainProxy;
     const outbounds: Outbound[] = [];
     const bestFragValues = [
-        "10-20", "20-30", "30-40",
-        "40-50", "50-60", "60-70",
-        "70-80", "80-90", "90-100",
-        "10-30", "20-40", "30-50",
-        "40-60", "50-70", "60-80",
-        "70-90", "80-100", "100-200"
+        "1-5", "1-10", "10-20", "20-30",
+        "30-40", "40-50", "50-60", "60-70",
+        "70-80", "80-90", "90-100", "10-30",
+        "20-40", "30-50", "40-60", "50-70",
+        "60-80", "70-90", "80-100", "100-200"
     ];
 
     bestFragValues.forEach((fragLength, index) => {

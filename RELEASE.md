@@ -1,29 +1,32 @@
-# 🥳 BPB v4 is here
+# 💡 Bug fixes & Improvements
 
-- Refactore the whole project using TypeScript.
-- Added VMess support to Chain Proxies. All main protocols are now supported: **VLESS**, **VMess**, **Trojan**, **Shadowsocks**, **Socks** and **Http**.
-- Removed Port 443 restriction for TLS Chain proxies.
-- `Socks` and `http` chain proxies should have `username` and `password`, Xray core made this mandatory. Also panel now supports these formats: `(socks or socks5 or http)://user:pass@server:port` and `(socks or socks5 or http):/base64@server:port`.
-- Overal Chain Proxy performance improvements.
-- Added Warp Remote DNS (IPv4 only). It's highly recommended to use Cloudflare DNS servers for Warp if you wanna change it.
-- Made **TCP Fast Open** optional due to some devices and ISPs compatibility. Please note that you have to enable TCP Fast Open on linux manually #1097
-- Added `maxSplit` to Fragment settings, please use it only if you understand this feature.
-- Added `applyTo` to Xray UDP noises in Warp Pro settings.
-- Added `Google AIs` to anti sanction routing rules which includes **Gemini**, **NotebookLLM** and so on.
-- Added a `Common` section to settings in order to handle shared settings between **VLESS**, **Trojan** and **Warp** configs and moved `LocalDNS`, `Fake DNS`, `Anti Sanction DNS`, `IPv6` to this section.
-- Revised build process to reduce worker.js size up to ~120 KB.
-- Added `Log Level` and `Allow connections from LAN` to Common section as new features.
-- Changed anti saction DNS to [Shecan](https://shecan.ir/).
-- Added `Malware`, `Phishing` and `Cryptominers` block rules. Note that v2ray users should set Geo Assets to Chocolate4U and download assets, otherwise configs won't connect.
-- Panel UI improvements.
-- Updated docs.
-- Fixed website language switch.
-- Clash Fake DNS bug fix.
-- Bug fix #1116
-- And some other bug fixes and improvements.
+- Due to nslookup issue for querying proxy IPs, the built-in proxy IPs list is now implemented and is accessible under `/proxy-ip` or by clicking provided shortcut in panel which lists Country, City and ISP. #1185
+
+- Fixed ECH config query. Be aware that ECH config query is delegated to Core DNS module (Local DNS) now, so this DNS server should be locally available. Optional `ECH Server Name` is also added. #1190
+
+> [!CAUTION]
+> Please note that `ECH Server Name` option is available in Xray for a while, however sing-box supports this feature from 1.13.0 and Clash supports it from v1.19.20. If you leave it empty, it uses your worker domain to query ECH config which works on all cores' stable versions right now. Also if you enter a Cloudflare domain, it should have ECH enabled on it, otherwise it won't work. To check this, visit [here](https://dns.google/query?name=&rr_type=HTTPS&ecs=) and resolve your desired domain, you should see an `ech` value in `Answer` field.
+
+> [!CAUTION]
+> ECH is still unstable in IRAN.
+
+> [!TIP]
+> ECH applies only to `Normal` subscription, not `Fragment`.
+
+- Fixed `ECH Server Name` bug #1224
+- Fixed ECH query DNS if local DNS is set to `localhost`
+- Fixed some typos, PR #1191
+- Reverted back URL configs to panel as `Raw` subscription. None of panel settings apply to these configs as you know and also they consume more worker requests than `Normal` configs and won't perform as others. They're not recommended to use and connections issues will not be supported anymore, please use `Normal` configs instead.
+
+> [!CAUTION]
+> You have to manually set DoH as remote DNS in your clients and disable MUX to use `Raw` configs.
+
+---
+
+## 💡 Other tips
 
 > [!NOTE]
-> Some fields like `IPv6` and `Fake DNS` should be, they will be set to default after upgrading to this version.
+> These days Fragment on some ISPs stopped working in Iran, you can change `Fragment packet` to `1-1` instead of `tlshello` and test, also you can try to change `Fragment mode` to bypass IR-GFW.
 
 > [!CAUTION]
 > If you are upgrading from versions below 3.5.1 to 4, you should get subscriptions from panel again.
@@ -32,4 +35,4 @@
 > sing-box client version should be 1.12.0 or higher.
 
 > [!CAUTION]
-> v2rayNG version should be 1.10.26 or higher and v2rayN should be 7.15.4 or higher.
+> Xray clients should be updated to the latest version i.e. v2rayNG, v2rayN and Streisand.
