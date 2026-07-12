@@ -1,5 +1,5 @@
 import { getGeoAssets } from './geo-assets';
-import type { DNS, DnsServer, DnsHosts } from 'types/xray';
+import type { DNS, DnsServer, DnsHosts } from '#types/xray';
 import { resolveDNS, isDomain, getDomain, accDnsRules } from '@utils';
 
 export async function buildDNS(
@@ -89,7 +89,7 @@ export async function buildDNS(
         fakeDnsDomains.push(...bypassDomains);
     }
 
-    if (fakeDNS) {
+    if (fakeDNS || isWorkerLess) {
         const fakeDNSServer = fakeDnsDomains.length
             ? buildDnsServer("fakedns", fakeDnsDomains, undefined, false, undefined)
             : "fakedns";
